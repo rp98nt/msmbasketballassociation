@@ -2401,6 +2401,81 @@ line-height: 30px;
      padding-top: 30px;
 }
 
+/* Home + contact page: white band after blue sections; centered image + form */
+.home-contact-band {
+     width: 100%;
+     float: left;
+     clear: both;
+     background-color: #ffffff;
+     padding-top: 72px;
+     padding-bottom: 88px;
+}
+
+.home-contact-band .home-contact-title {
+     text-align: center;
+     padding-bottom: 40px;
+}
+
+.home-contact-band .home-contact-title h2 {
+     text-align: center;
+     margin: 0;
+     color: #111315;
+}
+
+.home-contact-band .home-contact-row {
+     max-width: 960px;
+     margin-left: auto;
+     margin-right: auto;
+}
+
+.home-contact-band .home-contact-visual {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+.home-contact-band .home-contact-img {
+     max-width: 300px;
+     width: 100%;
+     height: auto;
+     display: block;
+     border-radius: 10px;
+     box-shadow: 0 8px 32px rgba(8, 27, 48, 0.12);
+}
+
+.home-contact-band .email_btn.home-contact-form {
+     float: none;
+     width: 100%;
+     max-width: 480px;
+     margin-left: auto;
+     margin-right: auto;
+     padding: 28px 26px 24px;
+     background-color: #f4f6f9;
+     background-image: none;
+     border: 1px solid #e1e6ec;
+     border-radius: 12px;
+     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.home-contact-band .home-contact-submit {
+     margin-top: 28px;
+}
+
+@media (max-width: 767px) {
+     .home-contact-band .home-contact-visual {
+          margin-bottom: 32px;
+     }
+}
+
+@media (min-width: 768px) {
+     .home-contact-band .home-contact-visual {
+          padding-right: 16px;
+     }
+     .home-contact-band .home-contact-row > div:last-child .email_btn {
+          margin-left: 0;
+     }
+}
+
 .contact_us{
      width: 100%;
      float: left;
