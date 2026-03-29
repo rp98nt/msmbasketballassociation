@@ -375,3 +375,22 @@ ul.link li {
 
 padding-left: 0px;}
 }
+
+/* Footer (index/contact): beat generic .menu_main widths and float nav */
+.Address.site-footer nav.site-footer-nav {
+    width: 100% !important;
+    max-width: 100% !important;
+    float: none !important;
+    clear: both !important;
+}
+
+.Address.site-footer .site-footer-nav .menu_text ul {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+}
+
+.Address.site-footer .site-footer-nav .menu_text li {
+    float: none !important;
+}
