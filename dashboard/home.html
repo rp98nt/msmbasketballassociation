@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MSM Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="../js/api-config.js"></script>
+  <script src="../js/msm-api.js"></script>
+  <script>
+    function fetchEvents() {
+      fetch(msmApiUrl('/api/events/upcoming'))
+        .then(function (r) { return r.json(); })
+        .then(function (events) {
+          var eventList = document.getElementById('eventList');
+          eventList.innerHTML = '';
+          if (!events) return;
+          for (var key in events) {
+            if (events.hasOwnProperty(key)) {
+              var event = events[key];
+              var eventCard = createEventCard(key, event.title, event.time);
+              eventList.appendChild(eventCard);
+            }
+          }
+        })
+        .catch(function (err) { console.error(err); });
+    }
+
+    function createEventCard(eventId, eventTitle, eventTime) {
+      var card = document.createElement('div');
+      card.className = 'card mb-3';
+
+      var cardBody = document.createElement('div');
+      cardBody.className = 'card-body';
+
+      var title = document.createElement('h5');
+      title.className = 'card-title';
+      title.textContent = eventTitle;
+
+      var time = document.createElement('p');
+      time.className = 'card-text';
+      time.textContent = 'Time: ' + eventTime;
+
+      var removeBtn = document.createElement('button');
+      removeBtn.className = 'btn btn-danger';
+      removeBtn.textContent = 'Move to Past Events';
+      removeBtn.addEventListener('click', function () {
+        moveEventToPastEvents(eventId);
+      });
+
+      cardBody.appendChild(title);
+      cardBody.appendChild(time);
+      cardBody.appendChild(removeBtn);
+      card.appendChild(cardBody);
+
+      return card;
+    }
+
+    function moveEventToPastEvents(eventId) {
+      fetch(msmApiUrl('/api/admin/move-event'), {
+        method: 'POST',
+        headers: msmAdminHeadersJson(),
+        body: JSON.stringify({ id: eventId }),
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error('Move failed');
+          return r.json();
+        })
+        .then(function () {
+          alert('Event moved to past events');
+          fetchEvents();
+        })
+        .catch(function (err) {
+          alert('Error moving event. Check admin key in js/api-config.js.');
+          console.error(err);
+        });
+    }
+
+    window.addEventListener('load', function () {
+      fetchEvents();
+    });
+  </script>
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>MSM Dashboard</h1>
+    <hr/>
+    <h3>Upcoming Events :</h3>
+    <div id="eventList"></div>
+    <div class="mb-3">
+      <a href="new_Event.html" class="btn btn-primary">Add New Event</a>
+    </div>
+    <div class="mb-3">
+      <a href="past_Events.html" class="btn btn-primary">View past Events</a>
+    </div>
+  </div>
+</body>
+</html>

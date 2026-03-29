@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><!-- Google tag (gtag.js) -->
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-170R0HMWXP"></script>
+   <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+
+      gtag('config', 'G-170R0HMWXP');
+   </script>
+   <!-- basic -->
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <!-- mobile metas -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+   <!-- site metas -->
+   <title>Upcoming Events</title>
+   <meta name="keywords" content="">
+   <meta name="description" content="">
+   <meta name="author" content="">
+   <!-- bootstrap css -->
+   <link rel="stylesheet" href="css/bootstrap.min.css">
+   <!-- style css -->
+   <link rel="stylesheet" href="css/style.css">
+   <!-- Responsive-->
+   <link rel="stylesheet" href="css/responsive.css">
+   <!--embedded CSS-->
+   <style>
+      .card-heading {
+         color: #fff;
+         font-weight: bold;
+      }
+
+      .date-text {
+         margin-left: 0px;
+         color: #fff;
+         font-weight: bold;
+         font-size: 15px;
+      }
+   </style>
+   <!--embedded CSS ends-->
+   <!-- fevicon -->
+   <link rel="icon" href="images/fevicon.png" type="image/gif" />
+   <!-- Scrollbar Custom CSS -->
+   <link rel="stylesheet" href="css/jquery.mCustomScrollbar.min.css">
+   <!-- Tweaks for older IEs-->
+   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+   <!-- owl stylesheets -->
+   <link rel="stylesheet" href="css/owl.carousel.min.css">
+   <link rel="stylesheet" href="css/owl.theme.default.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
+      media="screen">
+   <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+   <script src="js/api-config.js"></script>
+   <script src="js/msm-api.js"></script>
+   <script>
+      function fetchUpcomingEvents() {
+         fetch(msmApiUrl('/api/events/upcoming'))
+            .then(function (r) { return r.json(); })
+            .then(function (upcomingEvents) {
+               var upcomingEventList = document.getElementById('upcomingEventList');
+               upcomingEventList.innerHTML = '';
+               if (!upcomingEvents) return;
+               for (var key in upcomingEvents) {
+                  if (upcomingEvents.hasOwnProperty(key)) {
+                     var upcomingEvent = upcomingEvents[key];
+                     var upcomingEventCard = createUpcomingEventCard(upcomingEvent);
+                     upcomingEventList.appendChild(upcomingEventCard);
+                  }
+               }
+            })
+            .catch(function (err) { console.error(err); });
+      }
+
+      // Create upcoming event card element
+      function createUpcomingEventCard(upcomingEvent) {
+         var section = document.createElement('section');
+         section.className = 'section carousel slide banner-main';
+         section.setAttribute('data-ride', 'carousel');
+
+         var carouselInner = document.createElement('div');
+         carouselInner.className = 'carousel-inner';
+
+         var carouselItem = document.createElement('div');
+         carouselItem.className = 'carousel-item active';
+
+         var container = document.createElement('div');
+         container.className = 'container';
+
+         var row = document.createElement('div');
+         row.className = 'row marginii';
+
+         var colImg = document.createElement('div');
+         colImg.className = 'col-xl-6 col-lg-6 col-md-6 col-sm-12';
+
+         var imgBox = document.createElement('div');
+         imgBox.className = 'img-box';
+
+         var image = document.createElement('img');
+         image.src = upcomingEvent.image;
+         image.style.maxWidth = '100%';
+         image.style.border = '15px solid #fff';
+
+         imgBox.appendChild(image);
+         colImg.appendChild(imgBox);
+
+         var colText = document.createElement('div');
+         colText.className = 'col-xl-6 col-lg-6 col-md-6 col-sm-12';
+
+         var carouselSportText = document.createElement('div');
+         carouselSportText.className = 'carousel-sport_text';
+
+         var heading = document.createElement('h1');
+         heading.className = 'card-heading';
+         heading.textContent = upcomingEvent.title;
+
+         var date = document.createElement('p');
+         date.className = 'date-text';
+         date.textContent = upcomingEvent.time;
+
+         var description = document.createElement('p');
+         description.className = 'lorem_text';
+         description.textContent = upcomingEvent.description;
+
+         if (upcomingEvent.link && upcomingEvent.link != "" && upcomingEvent.link != " ") {
+
+         }
+         var btnMain = document.createElement('div');
+         btnMain.className = 'btn_main';
+
+         var registerBtn = document.createElement('a');
+         registerBtn.className = 'btn btn-lg btn-primary';
+         registerBtn.href = upcomingEvent.link;
+         registerBtn.setAttribute('role', 'button');
+         registerBtn.textContent = 'Register Now';
+
+         btnMain.appendChild(registerBtn);
+
+         carouselSportText.appendChild(heading);
+         carouselSportText.appendChild(date);
+         carouselSportText.appendChild(description);
+         if (upcomingEvent.link && upcomingEvent.link != "" && upcomingEvent.link != " ") {
+
+            carouselSportText.appendChild(btnMain);
+         }
+
+         colText.appendChild(carouselSportText);
+
+         row.appendChild(colImg);
+         row.appendChild(colText);
+
+         container.appendChild(row);
+
+         carouselItem.appendChild(container);
+
+         carouselInner.appendChild(carouselItem);
+
+         section.appendChild(carouselInner);
+
+
+         return section;
+      }
+
+      // Fetch upcoming events on page load
+      window.addEventListener('load', function () {
+         fetchUpcomingEvents();
+      });
+   </script>
+</head>
+<!-- body -->
+
+<body class="main-layout">
+   <!-- loader  -->
+   <div class="loader_bg bg-primary">
+      <div class="loader"><img src="images/dunk.gif" alt="#" /></div>
+   </div>
+   <!-- end loader -->
+   <!-- header -->
+   <header class="section">
+      <!-- header inner -->
+      <div class="header_main">
+         <div class="header_main">
+            <div class="container">
+               <div class="row">
+                  <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
+                     <div class="full">
+                        <div class="center-desk">
+                           <!-- <div class="logo"> <a href="index.html"><img src="images/logo.png" alt="#"></a> </div> -->
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                     <div class="menu-area">
+                        <div class="limit-box">
+                           <nav class="main-menu">
+                              <ul class="menu-area-main">
+                                 <li> <a href="index.html">Home</a> </li>
+                                 <li> <a href="about.html">About</a> </li>
+                                 <li><a href="testmonial.html">Past Events</a></li>
+
+                                 <li><a href="contact.html">Contact Us</a></li>
+                                 <!-- <li class="last"><a href="#"><img src="images/search_icon.png" alt="icon"/></a></li> -->
+                              </ul>
+                           </nav>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- end header inner -->
+   </header>
+   <!-- end header -->
+
+   <!--Our  Clients -->
+   <div id="plant" class="section_Clients layout_padding padding_bottom_0">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-12 ">
+               <div class="titlepage">
+                  <h2> Upcoming Events</h2>
+                  <!-- <span style="text-align: center;">available, but the majority have suffered alteration in some form, by injected randomised words which don't look even slightly believable</span> -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <!-- end Our  Clients -->
+   <div id="upcomingEventList"></div>
+
+
+
+   <!-- footer start-->
+   <div id="plant" class="footer layout_padding">
+      <div class="container">
+         <!-- <p>© 2019 All Rights Reserved. Design by<a href="https://html.design/"> Free Html Templates</a></p> -->
+      </div>
+   </div>
+   <!-- Javascript files-->
+   <script src="js/jquery.min.js"></script>
+   <script src="js/popper.min.js"></script>
+   <script src="js/bootstrap.bundle.min.js"></script>
+   <script src="js/jquery-3.0.0.min.js"></script>
+   <script src="js/plugin.js"></script>
+   <!-- sidebar -->
+   <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+   <script src="js/custom.js"></script>
+   <!-- javascript -->
+   <script src="js/owl.carousel.js"></script>
+   <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+   <script>
+      $(document).ready(function () {
+         $(".fancybox").fancybox({
+            openEffect: "none",
+            closeEffect: "none"
+         });
+
+         $(".zoom").hover(function () {
+
+            $(this).addClass('transition');
+         }, function () {
+
+            $(this).removeClass('transition');
+         });
+      });
+
+   </script>
+
+
+</body>
+
+</html>

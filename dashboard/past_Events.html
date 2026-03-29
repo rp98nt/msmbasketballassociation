@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Past Events</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="../js/api-config.js"></script>
+  <script src="../js/msm-api.js"></script>
+  <script>
+    function fetchPastEvents() {
+      fetch(msmApiUrl('/api/events/past'))
+        .then(function (r) { return r.json(); })
+        .then(function (pastEvents) {
+          var pastEventList = document.getElementById('pastEventList');
+          pastEventList.innerHTML = '';
+          if (!pastEvents) return;
+          for (var key in pastEvents) {
+            if (pastEvents.hasOwnProperty(key)) {
+              var pastEvent = pastEvents[key];
+              var pastEventCard = createPastEventCard(key, pastEvent.title, pastEvent.time);
+              pastEventList.appendChild(pastEventCard);
+            }
+          }
+        })
+        .catch(function (err) { console.error(err); });
+    }
+
+    function createPastEventCard(eventId, pastEventTitle, pastEventTime) {
+      var card = document.createElement('div');
+      card.className = 'card mb-3';
+
+      var cardBody = document.createElement('div');
+      cardBody.className = 'card-body';
+
+      var title = document.createElement('h5');
+      title.className = 'card-title';
+      title.textContent = pastEventTitle;
+
+      var time = document.createElement('p');
+      time.className = 'card-text';
+      time.textContent = 'Time: ' + pastEventTime;
+
+      var removeBtn = document.createElement('button');
+      removeBtn.className = 'btn btn-danger';
+      removeBtn.textContent = 'Delete Event';
+      removeBtn.addEventListener('click', function () {
+        showConfirmation(eventId);
+      });
+
+      cardBody.appendChild(title);
+      cardBody.appendChild(time);
+      cardBody.appendChild(removeBtn);
+      card.appendChild(cardBody);
+
+      return card;
+    }
+
+    function showConfirmation(eventId) {
+      if (confirm("Are you sure you want to delete this event?")) {
+        deleteEvent(eventId);
+      }
+    }
+
+    function deleteEvent(eventId) {
+      fetch(msmApiUrl('/api/admin/past-event?id=' + encodeURIComponent(eventId)), {
+        method: 'DELETE',
+        headers: msmAdminHeaders(),
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error('Delete failed');
+          return r.json();
+        })
+        .then(function () {
+          console.log('Event removed successfully.');
+          fetchPastEvents();
+        })
+        .catch(function (err) {
+          console.error('Error removing event:', err);
+          alert('Error deleting event. Check admin key in js/api-config.js.');
+        });
+    }
+
+    window.addEventListener('load', function () {
+      fetchPastEvents();
+    });
+  </script>
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>MSM Dashboard</h1>
+    <hr />
+    <h3>Past Events :</h3>
+    <div id="pastEventList"></div>
+  </div>
+</body>
+</html>

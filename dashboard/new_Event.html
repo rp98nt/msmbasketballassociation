@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MSM Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="../js/api-config.js"></script>
+  <script src="../js/msm-api.js"></script>
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Event Form</h1>
+    <form id="eventForm">
+      <div class="form-group">
+        <label for="fileInput">Event Image:</label>
+        <input type="file" class="form-control-file" id="fileInput" accept="image/*" required>
+      </div>
+      <div class="form-group">
+        <label for="eventTitle">Event Title:</label>
+        <input type="text" class="form-control" id="eventTitle" required>
+      </div>
+      <div class="form-group">
+        <label for="eventTime">Event Time:</label>
+        <input type="text" class="form-control" id="eventTime" required>
+      </div>
+      <div class="form-group">
+        <label for="eventDescription">Event Description:</label>
+        <textarea class="form-control" id="eventDescription" rows="4" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="eventLink">Event Link:</label>
+        <input type="text" class="form-control" id="eventLink"  >
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+    <div id="successMessage" class="text-success"></div>
+    <div id="errorMessage" class="text-danger"></div>
+  </div>
+
+  <script>
+    var eventForm = document.getElementById('eventForm');
+    var fileInput = document.getElementById('fileInput');
+
+    eventForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      if (!fileInput.files[0]) {
+        alert('Please select an image.');
+        return;
+      }
+
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+      reader.onerror = function () {
+        alert('Could not read the image file.');
+      };
+      reader.onload = function () {
+        var imageDataUrl = reader.result;
+        var eventTitle = document.getElementById('eventTitle').value;
+        var eventTime = document.getElementById('eventTime').value;
+        var eventDescription = document.getElementById('eventDescription').value;
+        var eventLink = document.getElementById('eventLink').value;
+
+        fetch(msmApiUrl('/api/admin/events'), {
+          method: 'POST',
+          headers: msmAdminHeadersJson(),
+          body: JSON.stringify({
+            image: imageDataUrl,
+            fileName: file.name,
+            title: eventTitle,
+            time: eventTime,
+            description: eventDescription,
+            link: eventLink,
+          }),
+        })
+          .then(function (r) {
+            if (!r.ok) return r.json().then(function (j) { throw new Error(j.error || 'Save failed'); });
+            return r.json();
+          })
+          .then(function () {
+            alert('Event data saved successfully.');
+            window.location.href = 'home.html';
+          })
+          .catch(function (err) {
+            alert(err.message || 'Error saving event data.');
+            console.error(err);
+          });
+      };
+      reader.readAsDataURL(file);
+    });
+  </script>
+</body>
+</html>
