@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS contact_messages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name TEXT NOT NULL,
   email TEXT NOT NULL,
-  phone TEXT NOT NULL DEFAULT '',
+  phone TEXT NOT NULL DEFAULT '', -- optional; empty string when omitted
   msg TEXT NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

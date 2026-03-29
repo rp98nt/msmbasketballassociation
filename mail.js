@@ -1,4 +1,7 @@
-document.getElementById("contact-form").addEventListener("submit", submitForm);
+var contactFormEl = document.getElementById("contact-form");
+if (contactFormEl) {
+  contactFormEl.addEventListener("submit", submitForm);
+}
 
 function submitForm(e) {
   e.preventDefault();

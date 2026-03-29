@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
     const body = await readJsonBody(req);
     const name = (body.name || '').trim();
     const email = (body.email || '').trim();
-    const phone = (body.phone || '').trim();
+    const phone = (body.phone || '').trim(); // optional
     const msg = (body.msg || '').trim();
     if (!name || !email || !msg) {
       applyCors(res);

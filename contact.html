@@ -129,18 +129,18 @@
                </div> -->
             <div class="col-md-6">
                <div class="email_btn">
-                  <form action="/action_page.php">
+                  <form id="contact-form" action="/action-page">
                      <div class="form-group">
-                        <input type="text" class="form-control form-control-sm" placeholder="Name" name="Name">
+                        <input id="name" type="text" class="form-control form-control-sm" placeholder="Name" name="Name">
                      </div>
                      <div class="form-group">
-                        <input type="text" class="form-control form-control-sm" placeholder="Email" name="Email">
+                        <input id="phone" type="tel" class="form-control form-control-sm" placeholder="Phone (optional)" name="Phone" autocomplete="tel">
                      </div>
                      <div class="form-group">
-                        <input type="text" class="form-control form-control-sm" placeholder="Phone" name="Phone">
+                        <input id="email" type="email" class="form-control form-control-sm" placeholder="Email" name="Email">
                      </div>
                      <div class="form-group">
-                        <input type="text" class="form-control form-control-sm" placeholder="Massage" name="text3">
+                        <input id="msg" type="text" class="form-control form-control-sm" placeholder="Message" name="text3">
                      </div>
                      <div class="submit_btn">
                         <button type="submit" class="btn btn-primary" style="background: #081b30;">Send</button>
@@ -257,7 +257,9 @@
       });
 
    </script>
-
+   <script src="js/api-config.js"></script>
+   <script src="js/msm-api.js"></script>
+   <script src="mail.js"></script>
 
 </body>
 
