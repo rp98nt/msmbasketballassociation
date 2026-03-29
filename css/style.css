@@ -2555,6 +2555,133 @@ line-height: 30px;
     padding: 83px 0 0 0;
 }
 
+/* Footer (index + contact): grid of contact cards + centered links */
+.Address.site-footer {
+     padding: 52px 0 40px;
+}
+
+.site-footer-heading {
+     text-align: center;
+     margin-bottom: 8px;
+}
+
+.site-footer .address_text {
+     width: auto;
+     display: inline-block;
+     text-align: center;
+     margin: 0 auto;
+     padding-bottom: 12px;
+     border-bottom: 3px solid #136af8;
+     color: #fff;
+     font-size: 1.85rem;
+     font-weight: 700;
+     letter-spacing: 0.03em;
+}
+
+.site-footer-contact-row {
+     justify-content: center;
+     align-items: stretch;
+}
+
+.site-footer-col {
+     display: flex;
+     margin-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+     .site-footer-col {
+          margin-bottom: 0;
+     }
+}
+
+.site-footer .site_info.site-footer-card {
+     flex: 1;
+     width: 100%;
+     align-items: flex-start;
+     gap: 14px;
+     padding: 20px 18px;
+     margin: 0;
+     background: rgba(255, 255, 255, 0.06);
+     border: 1px solid rgba(255, 255, 255, 0.1);
+     border-radius: 12px;
+     min-height: 100%;
+     box-sizing: border-box;
+}
+
+.site-footer .site-footer-card .info_icon {
+     flex-shrink: 0;
+     margin-right: 0;
+     width: 52px;
+     height: 52px;
+     padding: 0;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border-radius: 10px;
+}
+
+.site-footer .site-footer-card .info_icon img {
+     max-width: 26px;
+     max-height: 26px;
+     width: auto;
+     height: auto;
+}
+
+.site-footer-text {
+     flex: 1;
+     text-align: left;
+     font-size: 15px;
+     line-height: 1.55;
+     color: rgba(255, 255, 255, 0.93);
+     min-width: 0;
+}
+
+.site-footer-nav.menu_main {
+     width: 100%;
+     max-width: none;
+     margin: 32px auto 0;
+     padding-top: 26px;
+     border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.site-footer .menu_text {
+     float: none;
+     margin: 0;
+     width: 100%;
+}
+
+.site-footer .menu_text ul {
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
+     align-items: center;
+     gap: 12px 40px;
+     list-style: none;
+     margin: 0;
+     padding: 0;
+}
+
+.site-footer .menu_text li {
+     float: none;
+     padding-left: 0;
+}
+
+.site-footer .menu_text li a {
+     text-decoration: none;
+     font-size: 15px;
+     font-weight: 500;
+}
+
+.site-footer .menu_text li a:hover {
+     color: #7ec8ff;
+}
+
+.site-footer .menu_text li.active a {
+     color: #fff;
+     padding-bottom: 3px;
+     border-bottom: 2px solid #136af8;
+}
+
 .address_text{
      width: 100%;
      text-align: center;
@@ -2620,9 +2747,10 @@ line-height: 30px;
 .footer{
      width: 100%;
      float: left;
-     background-color: #136af8;
-     height: auto; 
-     padding: 0px;
+     background-color: #061525;
+     height: auto;
+     padding: 20px 0;
+     border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 
