@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MSM Rising Stars</title>
+    <link rel="stylesheet" href="css/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="css/msm-heros.css" />
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <h1 style="background-color:#e3f2fd;text-align: center;padding-top: 10px;">MSM Rising Stars</h1>
+    <p style="text-align:center;max-width:640px;margin:24px auto;padding:0 16px;color:#333;">
+        Profiles of emerging talent from MSM Basketball will appear here. For featured heroes, see
+        <a href="msm-heros.html">MSM Heros</a> or return to <a href="index.html">home</a>.
+    </p>
+    <section class="container">
+        <div class="testimonial mySwiper">
+            <div class="testi-content swiper-wrapper">
+                <div class="slide swiper-slide">
+                    <p style="padding:40px 20px;text-align:center;">
+                        More rising star spotlights coming soon.
+                    </p>
+                    <div class="details">
+                        <span class="name">MSM Basketball Sports Association</span>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+    <script src="js/swiper-bundle.min.js"></script>
+    <script>
+        new Swiper(".mySwiper", {
+            slidesPerView: 1,
+            grabCursor: true,
+            loop: false,
+            pagination: { el: ".swiper-pagination", clickable: true },
+        });
+    </script>
+</body>
+
+</html>
