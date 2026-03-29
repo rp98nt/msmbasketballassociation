@@ -449,12 +449,17 @@ a.readmore_bt {
      width: 100%;
      left: 0;
      top: 0;
-     padding: 0;
-     padding-top: 0px;
      background-size: 100% 100%;
-     background-repeat: no-repeat;
-     min-height: 110px;
-     padding-top: 45px
+     /* Symmetric vertical padding + flex so logo and nav sit on true vertical center */
+     padding: 14px 0;
+     min-height: 84px;
+     display: flex;
+     align-items: center;
+     box-sizing: border-box;
+}
+
+.header > .container {
+     width: 100%;
 }
 
 .logo {
@@ -505,9 +510,23 @@ a.readmore_bt {
      height: auto;
 }
 
+.header .menu-area,
+.header_main .menu-area {
+     display: flex;
+     align-items: center;
+     justify-content: flex-end;
+     width: 100%;
+}
+
 nav.main-menu {
      float: right;
      margin-left: 0;
+}
+
+.header nav.main-menu,
+.header_main nav.main-menu {
+     float: none;
+     margin-left: auto;
 }
 
 ul.top_icon {
@@ -1108,6 +1127,11 @@ ul.top_icon li a {
      margin: 0;
      list-style-type: none;
      margin-bottom: 10px;
+}
+
+.header .main-menu ul,
+.header_main .main-menu ul {
+     margin-bottom: 0;
 }
 
 .main-menu ul>li {
@@ -2559,7 +2583,17 @@ border-radius: 10px;
      width: 100%;
      float: left;
      background-color: #081b30;
-     padding-top: 20px;
+     padding: 14px 0;
+     display: flex;
+     align-items: center;
+     box-sizing: border-box;
+}
+
+.header_main > .header_main {
+     float: none;
+     width: 100%;
+     display: flex;
+     align-items: center;
 }
 
 .copyright_text{
@@ -2646,8 +2680,7 @@ text-align: center;
 
 .product_pagr .clothes_main {margin-bottom: 90px;}
 
-
-.main-menu ul > li a {padding-top: 5px;}
+/* Removed padding-top: 5px override — it broke vertical symmetry vs padding-bottom and skewed navbar alignment */
 
 .sport_product {
 
