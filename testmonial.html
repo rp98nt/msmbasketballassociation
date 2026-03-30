@@ -38,14 +38,30 @@
          font-weight: bold;
          font-size: 15px;
       }
-   </style>
+
       .past-event-detail { padding: 32px 0 48px; }
       .past-event-detail h1 { color: #fffcf4; }
-      .past-event-detail .back-link { color: #fffcf4; text-decoration: underline !important; margin-bottom: 16px; display: inline-block; }
-      .past-event-detail .recap-body { color: #fffcf4; white-space: pre-wrap; line-height: 1.65; max-width: 900px; }
+      .past-event-detail .back-link {
+         color: #fffcf4;
+         text-decoration: underline !important;
+         margin-bottom: 16px;
+         display: inline-block;
+      }
+      .past-event-detail .recap-body {
+         color: #fffcf4;
+         white-space: pre-wrap;
+         line-height: 1.65;
+         max-width: 900px;
+      }
       .past-gallery { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-      .past-gallery img { max-width: 220px; max-height: 180px; object-fit: cover; border: 8px solid #fff; border-radius: 4px; }
-   <!--embedded CSS ends-->
+      .past-gallery img {
+         max-width: 220px;
+         max-height: 180px;
+         object-fit: cover;
+         border: 8px solid #fff;
+         border-radius: 4px;
+      }
+   </style>
    <!-- Responsive-->
    <link rel="stylesheet" href="css/responsive.css">
    <!-- fevicon -->
@@ -74,22 +90,18 @@
          var detail = document.getElementById('pastEventDetail');
          var list = document.getElementById('upcomingEventList');
          var legacy = document.getElementById('legacyPastCarousel');
-         var orphan = document.getElementById('pastEventOrphanStrip');
          if (detail) detail.style.display = 'none';
          if (list) list.style.display = '';
          if (legacy) legacy.style.display = '';
-         if (orphan) orphan.style.display = '';
       }
 
       function showPastDetail() {
          var detail = document.getElementById('pastEventDetail');
          var list = document.getElementById('upcomingEventList');
          var legacy = document.getElementById('legacyPastCarousel');
-         var orphan = document.getElementById('pastEventOrphanStrip');
          if (detail) detail.style.display = '';
          if (list) list.style.display = 'none';
          if (legacy) legacy.style.display = 'none';
-         if (orphan) orphan.style.display = 'none';
       }
 
       function fetchPastEventDetail(id) {
@@ -690,43 +702,6 @@
                      </div>
 
                   </div>
-                  <div class="carousel-inner">
-                     <div class="carousel-item">
-
-                        <div class="titlepage">
-                           <div class="john">
-                              <div class="john_image"><img src="images/2a.jpeg" style="max-width: 70%;"></div>
-                              <!-- <div class="john_text">JOHN DUE<span style="color: #fffcf4;">(ceo)</span></div> -->
-                              <p class="lorem_ipsum_text text-left">Maharashtra Basketball Senior Men and Women team
-                                 selection trials competition dt 3 & 4 September 2022 </p>
-                              <!-- <div class="icon_image"><img src="images/icon-1.png"></div> -->
-                           </div>
-                        </div>
-                     </div>
-
-                     <div class="carousel-item">
-                        <div class="titlepage">
-                           <div class="john">
-                              <div class="john_image"><img src="images/2b.jpeg" style="max-width: 70%;"></div>
-                              <!-- <div class="john_text">JOHN DUE<span style="color: #fffcf4;">(ceo)</span></div> -->
-                              <p class="lorem_ipsum_text text-left">Maharashtra Basketball Senior Men and Women team
-                                 selection trials competition dt 3 & 4 September 2022 </p>
-                              <!-- <div class="icon_image"><img src="images/icon-1.png"></div> -->
-                           </div>
-                        </div>
-                     </div>
-                     <div class="carousel-item">
-                        <div class="titlepage">
-                           <div class="john">
-                              <div class="john_image"><img src="images/2c.jpeg" style="max-width: 100%;"></div>
-                              <!-- <div class="john_text">JOHN DUE<span style="color: #fffcf4;">(ceo)</span></div> -->
-                              <p class="lorem_ipsum_text">Maharashtra Basketball Senior Men and Women team selection
-                                 trials competition dt 3 & 4 September 2022</p>
-                              <!-- <div class="icon_image"><img src="images/icon-1.png"></div> -->
-                           </div>
-                        </div>
-                     </div>
-                  </div>
 
                   <!-- Left and right controls -->
                   <a class="carousel-control-prev" href="#testimonial" data-slide="prev">
@@ -742,47 +717,7 @@
          </div>
       </div>
    </div>
-   </div>
-   </div>
-   </div>
    <!-- end Our  Clients -->
-
-   <!-- <div id="main_slider" class="section carousel slide banner-main" data-ride="carousel"> -->
-   <!-- <ol class="carousel-indicators">
-               <li data-target="#main_slider" data-slide-to="0" class="active"></li>
-               <li data-target="#main_slider" data-slide-to="1"></li>
-               <li data-target="#main_slider" data-slide-to="2"></li>
-            </ol> -->
-
-   <div id="pastEventOrphanStrip" class="section banner-main">
-   <div class="container">
-         <div class="row marginii">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-               <div class="carousel-sporrt_text ">
-                  <h1 class="sporrt_text">Events</h1>
-                  <p class="lorem_text"> Best wishes for MSM Basketball Sports Association website!
-                     I was a good player of Basketball along with Gymnastics. Basketball is my favorite sport and it
-                     developed agility, speed, dodging ability and to take more and more in life.
-                     This game teaches us that if we want to be successful in life, our quality should be high.
-                     Basketball is considered to be the fastest game among other sports and therefore as many people as
-                     possible should come to the basketball ground so that everyone can get their fitness and
-                     entertainment by playing the game. As a member of msm's basketball sports association, I invite all
-                     people to come and play basketball at marathvada sanskritik mandal's basketball ground..
-                     Prof. Dr. Makarand Joshi,
-                     Shiv chhatrapati Awardee.</p>
-                  <div class="btn_main">
-                     <!-- <a class="btn btn-lg btn-primary" href="#" role="button">Read More</a> -->
-                  </div>
-               </div>
-            </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-               <div class="img-box ">
-                  <figure><img src="images/aboutpic.jpeg" style="max-width: 100%; border: 15px solid #fff;" /></figure>
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
 
    <div id="footer" class="Address site-footer layout_padding">
       <div class="container">
