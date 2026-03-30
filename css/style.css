@@ -30,6 +30,7 @@
 
 html {
      scroll-behavior: smooth;
+     height: 100%;
 }
 
 body {
@@ -39,6 +40,23 @@ body {
      line-height: 1.80857;
      font-weight: normal;
      overflow-x: hidden;
+}
+
+/* Sticky footer: short pages keep Address + copyright bar at bottom of viewport */
+body.main-layout {
+     min-height: 100vh;
+     min-height: 100dvh;
+     display: flex;
+     flex-direction: column;
+}
+
+body.main-layout > #footer.Address {
+     margin-top: auto;
+}
+
+body.main-layout > #footer.Address,
+body.main-layout > .footer.layout_padding {
+     flex-shrink: 0;
 }
 
 a {
