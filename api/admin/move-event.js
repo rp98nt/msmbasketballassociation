@@ -45,8 +45,8 @@ module.exports = async (req, res) => {
 
     const e = rows[0];
     await sql`
-      INSERT INTO past_events (image, title, time, description, link)
-      VALUES (${e.image}, ${e.title}, ${e.time}, ${e.description}, ${e.link || ''})
+      INSERT INTO past_events (image, title, time, description, link, recap_text, gallery_urls)
+      VALUES (${e.image}, ${e.title}, ${e.time}, ${e.description}, ${e.link || ''}, '', '[]')
     `;
     await sql`DELETE FROM upcoming_events WHERE id = ${id}`;
 

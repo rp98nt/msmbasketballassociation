@@ -1,64 +1,262 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Past Events</title>
+  <meta charset="utf-8">
+  <title>Past Events — MSM Dashboard</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
   <script src="../js/api-config.js"></script>
   <script src="../js/msm-api.js"></script>
+  <style>
+    .gallery-thumb { max-width: 72px; max-height: 72px; object-fit: cover; border-radius: 4px; }
+    .gallery-remove { cursor: pointer; color: #c00; font-size: 12px; }
+    .recap-preview { max-height: 3em; overflow: hidden; font-size: 13px; color: #555; }
+  </style>
+</head>
+<body>
+  <div class="container mt-4 mb-5">
+    <h1>MSM Dashboard</h1>
+    <p><a href="home.html">← Back to home</a></p>
+    <hr />
+    <h3>Past events</h3>
+    <p class="text-muted small">Add a long recap and photo gallery for each past event. This appears on the public Past Events page when visitors open an event.</p>
+    <div id="pastEventList"></div>
+  </div>
+
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalTitle">Edit past event</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="small text-muted mb-2" id="editMeta"></p>
+          <div class="form-group">
+            <label for="recapText">Recap / full story (up to ~1000 words)</label>
+            <textarea class="form-control" id="recapText" rows="14" maxlength="12000" placeholder="Write the full report, highlights, and story for this event…"></textarea>
+            <small class="form-text text-muted"><span id="recapCount">0</span> / 12000 characters</small>
+          </div>
+          <div class="form-group">
+            <label>Current photos</label>
+            <div id="existingGallery" class="d-flex flex-wrap mb-2"></div>
+          </div>
+          <div class="form-group">
+            <label for="newPhotos">Add more photos</label>
+            <input type="file" class="form-control-file" id="newPhotos" accept="image/*" multiple>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="saveRecapBtn">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    var editingId = null;
+    var existingGalleryUrls = [];
+
+    function parseGallery(ev) {
+      if (!ev.galleryUrls) return [];
+      if (Array.isArray(ev.galleryUrls)) return ev.galleryUrls;
+      return [];
+    }
+
     function fetchPastEvents() {
       fetch(msmApiUrl('/api/events/past'))
         .then(function (r) { return r.json(); })
         .then(function (pastEvents) {
-          var pastEventList = document.getElementById('pastEventList');
-          pastEventList.innerHTML = '';
+          var list = document.getElementById('pastEventList');
+          list.innerHTML = '';
           if (!pastEvents) return;
-          for (var key in pastEvents) {
-            if (pastEvents.hasOwnProperty(key)) {
-              var pastEvent = pastEvents[key];
-              var pastEventCard = createPastEventCard(key, pastEvent.title, pastEvent.time);
-              pastEventList.appendChild(pastEventCard);
-            }
+          var keys = Object.keys(pastEvents);
+          if (!keys.length) {
+            list.innerHTML = '<p class="text-muted">No past events yet.</p>';
+            return;
           }
+          keys.forEach(function (key) {
+            var ev = pastEvents[key];
+            list.appendChild(createPastEventCard(key, ev));
+          });
         })
         .catch(function (err) { console.error(err); });
     }
 
-    function createPastEventCard(eventId, pastEventTitle, pastEventTime) {
+    function createPastEventCard(eventId, ev) {
+      var recap = (ev.recapText || '').trim();
+      var gallery = parseGallery(ev);
       var card = document.createElement('div');
       card.className = 'card mb-3';
 
-      var cardBody = document.createElement('div');
-      cardBody.className = 'card-body';
+      var body = document.createElement('div');
+      body.className = 'card-body';
 
       var title = document.createElement('h5');
       title.className = 'card-title';
-      title.textContent = pastEventTitle;
+      title.textContent = ev.title;
 
       var time = document.createElement('p');
-      time.className = 'card-text';
-      time.textContent = 'Time: ' + pastEventTime;
+      time.className = 'card-text mb-1';
+      time.textContent = 'Time: ' + ev.time;
 
-      var removeBtn = document.createElement('button');
-      removeBtn.className = 'btn btn-danger';
-      removeBtn.textContent = 'Delete Event';
-      removeBtn.addEventListener('click', function () {
-        showConfirmation(eventId);
+      var meta = document.createElement('p');
+      meta.className = 'card-text small text-muted mb-2';
+      meta.textContent = 'Recap: ' + (recap ? recap.length + ' chars' : 'not set') + ' · Gallery: ' + gallery.length + ' photo(s)';
+
+      var recapPrev = document.createElement('div');
+      recapPrev.className = 'recap-preview mb-2';
+      recapPrev.textContent = recap ? recap.slice(0, 200) + (recap.length > 200 ? '…' : '') : '(no recap yet)';
+
+      var btnRow = document.createElement('div');
+      btnRow.className = 'btn-group';
+
+      var editBtn = document.createElement('button');
+      editBtn.className = 'btn btn-primary btn-sm';
+      editBtn.textContent = 'Edit recap & photos';
+      editBtn.addEventListener('click', function () { openEditModal(eventId); });
+
+      var delBtn = document.createElement('button');
+      delBtn.className = 'btn btn-danger btn-sm';
+      delBtn.textContent = 'Delete event';
+      delBtn.addEventListener('click', function () {
+        if (confirm('Delete this past event permanently?')) deleteEvent(eventId);
       });
 
-      cardBody.appendChild(title);
-      cardBody.appendChild(time);
-      cardBody.appendChild(removeBtn);
-      card.appendChild(cardBody);
+      btnRow.appendChild(editBtn);
+      btnRow.appendChild(delBtn);
 
+      body.appendChild(title);
+      body.appendChild(time);
+      body.appendChild(meta);
+      body.appendChild(recapPrev);
+      body.appendChild(btnRow);
+      card.appendChild(body);
       return card;
     }
 
-    function showConfirmation(eventId) {
-      if (confirm("Are you sure you want to delete this event?")) {
-        deleteEvent(eventId);
+    function openEditModal(eventId) {
+      editingId = eventId;
+      existingGalleryUrls = [];
+      document.getElementById('recapText').value = '';
+      document.getElementById('existingGallery').innerHTML = '';
+      document.getElementById('newPhotos').value = '';
+      document.getElementById('editModalTitle').textContent = 'Edit past event';
+      document.getElementById('editMeta').textContent = 'Loading…';
+
+      fetch(msmApiUrl('/api/admin/past-event?id=' + encodeURIComponent(eventId)), {
+        headers: msmAdminHeaders(),
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error('Load failed');
+          return r.json();
+        })
+        .then(function (data) {
+          document.getElementById('editModalTitle').textContent = data.title || 'Edit past event';
+          document.getElementById('editMeta').textContent = (data.time || '') + (data.description ? ' — ' + String(data.description).slice(0, 120) : '');
+          document.getElementById('recapText').value = data.recapText || '';
+          updateRecapCount();
+          existingGalleryUrls = Array.isArray(data.galleryUrls) ? data.galleryUrls.slice() : [];
+          renderExistingGallery();
+          $('#editModal').modal('show');
+        })
+        .catch(function (err) {
+          console.error(err);
+          alert('Could not load event. Check admin key in js/api-config.js.');
+        });
+    }
+
+    function renderExistingGallery() {
+      var wrap = document.getElementById('existingGallery');
+      wrap.innerHTML = '';
+      existingGalleryUrls.forEach(function (url) {
+        var col = document.createElement('div');
+        col.className = 'mr-2 mb-2 text-center';
+        var img = document.createElement('img');
+        img.src = url;
+        img.className = 'gallery-thumb d-block mx-auto';
+        img.alt = '';
+        var rm = document.createElement('div');
+        rm.className = 'gallery-remove';
+        rm.textContent = 'Remove';
+        rm.addEventListener('click', function () {
+          existingGalleryUrls = existingGalleryUrls.filter(function (u) { return u !== url; });
+          renderExistingGallery();
+        });
+        col.appendChild(img);
+        col.appendChild(rm);
+        wrap.appendChild(col);
+      });
+      if (!existingGalleryUrls.length) {
+        wrap.innerHTML = '<span class="text-muted small">No gallery photos yet.</span>';
       }
     }
+
+    function updateRecapCount() {
+      var t = document.getElementById('recapText').value;
+      document.getElementById('recapCount').textContent = String(t.length);
+    }
+
+    document.getElementById('recapText').addEventListener('input', updateRecapCount);
+
+    document.getElementById('saveRecapBtn').addEventListener('click', function () {
+      if (!editingId) return;
+      var recapText = document.getElementById('recapText').value;
+      var files = document.getElementById('newPhotos').files;
+      var newImages = [];
+
+      function sendPayload() {
+        fetch(msmApiUrl('/api/admin/past-event'), {
+          method: 'PATCH',
+          headers: msmAdminHeadersJson(),
+          body: JSON.stringify({
+            id: editingId,
+            recapText: recapText,
+            existingGalleryUrls: existingGalleryUrls,
+            newImages: newImages,
+          }),
+        })
+          .then(function (r) {
+            if (!r.ok) return r.json().then(function (j) { throw new Error(j.error || 'Save failed'); });
+            return r.json();
+          })
+          .then(function () {
+            $('#editModal').modal('hide');
+            fetchPastEvents();
+          })
+          .catch(function (err) {
+            alert(err.message || 'Error saving');
+            console.error(err);
+          });
+      }
+
+      if (!files || !files.length) {
+        sendPayload();
+        return;
+      }
+
+      var pending = files.length;
+      var i;
+      for (i = 0; i < files.length; i++) {
+        (function (file) {
+          var reader = new FileReader();
+          reader.onerror = function () {
+            pending--;
+            if (pending <= 0) sendPayload();
+          };
+          reader.onload = function () {
+            newImages.push({ dataUrl: reader.result, fileName: file.name });
+            pending--;
+            if (pending <= 0) sendPayload();
+          };
+          reader.readAsDataURL(file);
+        })(files[i]);
+      }
+    });
 
     function deleteEvent(eventId) {
       fetch(msmApiUrl('/api/admin/past-event?id=' + encodeURIComponent(eventId)), {
@@ -70,11 +268,10 @@
           return r.json();
         })
         .then(function () {
-          console.log('Event removed successfully.');
           fetchPastEvents();
         })
         .catch(function (err) {
-          console.error('Error removing event:', err);
+          console.error(err);
           alert('Error deleting event. Check admin key in js/api-config.js.');
         });
     }
@@ -83,13 +280,5 @@
       fetchPastEvents();
     });
   </script>
-</head>
-<body>
-  <div class="container mt-4">
-    <h1>MSM Dashboard</h1>
-    <hr />
-    <h3>Past Events :</h3>
-    <div id="pastEventList"></div>
-  </div>
 </body>
 </html>

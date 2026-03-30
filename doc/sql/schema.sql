@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS past_events (
   time TEXT NOT NULL,
   description TEXT NOT NULL,
   link TEXT NOT NULL DEFAULT '',
+  recap_text TEXT NOT NULL DEFAULT '',
+  gallery_urls TEXT NOT NULL DEFAULT '[]',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
