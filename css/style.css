@@ -1708,6 +1708,9 @@ input[type="radio"] .styled:checked+label::after {
 }
 .img-box figure img {
      box-shadow: #081b30 0px 0px 0px 0px;
+     max-width: 100%;
+     height: auto;
+     display: block;
 }
 .layout_padding {
      padding-top:  90px 0px;
