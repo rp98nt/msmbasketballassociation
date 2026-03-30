@@ -2928,12 +2928,8 @@ text-align: center;
      margin-bottom: 0 !important;
 }
 
-.about_pape .about-page-lower {
+.about_pape .about-static-panel:last-of-type {
      padding-bottom: 32px;
-}
-
-.about_pape .about-page-last-row {
-     margin-bottom: 0 !important;
 }
 
 .about_pape #footer.Address.site-footer {
