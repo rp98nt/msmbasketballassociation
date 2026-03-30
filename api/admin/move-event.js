@@ -3,8 +3,9 @@ const { applyCors, handleOptions } = require('../lib/cors');
 const { readJsonBody } = require('../lib/body');
 
 function assertAdmin(req, res) {
-  const key = req.headers['x-admin-key'];
-  if (!process.env.ADMIN_API_KEY || key !== process.env.ADMIN_API_KEY) {
+  const key = String(req.headers['x-admin-key'] || '').trim();
+  const expected = String(process.env.ADMIN_API_KEY || '').trim();
+  if (!expected || key !== expected) {
     applyCors(res);
     res.status(401).json({ error: 'Unauthorized' });
     return false;
@@ -34,7 +35,7 @@ module.exports = async (req, res) => {
     const rows = await sql`
       SELECT image, title, time, description, link
       FROM upcoming_events
-      WHERE id = ${id}
+      WHERE id = ${id}::uuid
       LIMIT 1
     `;
 
@@ -44,11 +45,12 @@ module.exports = async (req, res) => {
     }
 
     const e = rows[0];
+    // Omit recap columns so DBs without migration still accept the row (defaults apply when columns exist).
     await sql`
-      INSERT INTO past_events (image, title, time, description, link, recap_text, gallery_urls)
-      VALUES (${e.image}, ${e.title}, ${e.time}, ${e.description}, ${e.link || ''}, '', '[]')
+      INSERT INTO past_events (image, title, time, description, link)
+      VALUES (${e.image}, ${e.title}, ${e.time}, ${e.description}, ${e.link || ''})
     `;
-    await sql`DELETE FROM upcoming_events WHERE id = ${id}`;
+    await sql`DELETE FROM upcoming_events WHERE id = ${id}::uuid`;
 
     applyCors(res);
     return res.status(200).json({ ok: true });

@@ -7,8 +7,9 @@ const MAX_RECAP = 12000;
 const MAX_GALLERY = 40;
 
 function assertAdmin(req, res) {
-  const key = req.headers['x-admin-key'];
-  if (!process.env.ADMIN_API_KEY || key !== process.env.ADMIN_API_KEY) {
+  const key = String(req.headers['x-admin-key'] || '').trim();
+  const expected = String(process.env.ADMIN_API_KEY || '').trim();
+  if (!expected || key !== expected) {
     applyCors(res);
     res.status(401).json({ error: 'Unauthorized' });
     return false;
@@ -28,6 +29,13 @@ function parseGalleryUrls(raw) {
     }
   }
   return [];
+}
+
+function isMissingRecapColumnsError(err) {
+  const code = err && err.code;
+  const msg = String((err && err.message) || '');
+  if (code === '42703') return true;
+  return /column .* does not exist/i.test(msg) && /recap_text|gallery_urls/i.test(msg);
 }
 
 module.exports = async (req, res) => {
@@ -84,12 +92,24 @@ module.exports = async (req, res) => {
       const galleryJson = JSON.stringify(allUrls);
 
       const sql = getSql();
-      const updated = await sql`
-        UPDATE past_events
-        SET recap_text = ${recapText}, gallery_urls = ${galleryJson}
-        WHERE id = ${id}::uuid
-        RETURNING id::text AS id
-      `;
+      let updated;
+      try {
+        updated = await sql`
+          UPDATE past_events
+          SET recap_text = ${recapText}, gallery_urls = ${galleryJson}
+          WHERE id = ${id}::uuid
+          RETURNING id::text AS id
+        `;
+      } catch (err) {
+        if (isMissingRecapColumnsError(err)) {
+          applyCors(res);
+          return res.status(503).json({
+            error:
+              'Database is missing recap columns. Run doc/sql/migration_past_event_recap.sql in Neon.',
+          });
+        }
+        throw err;
+      }
 
       if (!updated.length) {
         applyCors(res);
@@ -114,12 +134,27 @@ module.exports = async (req, res) => {
     }
     try {
       const sql = getSql();
-      const rows = await sql`
-        SELECT id::text AS id, image, title, time, description, link, recap_text, gallery_urls
-        FROM past_events
-        WHERE id = ${id}::uuid
-        LIMIT 1
-      `;
+      let rows;
+      try {
+        rows = await sql`
+          SELECT id::text AS id, image, title, time, description, link, recap_text, gallery_urls
+          FROM past_events
+          WHERE id = ${id}::uuid
+          LIMIT 1
+        `;
+      } catch (err) {
+        if (!isMissingRecapColumnsError(err)) throw err;
+        rows = await sql`
+          SELECT id::text AS id, image, title, time, description, link
+          FROM past_events
+          WHERE id = ${id}::uuid
+          LIMIT 1
+        `;
+        if (rows.length) {
+          rows[0].recap_text = '';
+          rows[0].gallery_urls = '[]';
+        }
+      }
       applyCors(res);
       if (!rows.length) {
         return res.status(404).json({ error: 'Not found' });

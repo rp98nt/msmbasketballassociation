@@ -55,21 +55,17 @@
     }
 
     function moveEventToPastEvents(eventId) {
-      fetch(msmApiUrl('/api/admin/move-event'), {
+      msmFetchJson(msmApiUrl('/api/admin/move-event'), {
         method: 'POST',
         headers: msmAdminHeadersJson(),
         body: JSON.stringify({ id: eventId }),
       })
-        .then(function (r) {
-          if (!r.ok) throw new Error('Move failed');
-          return r.json();
-        })
         .then(function () {
           alert('Event moved to past events');
           fetchEvents();
         })
         .catch(function (err) {
-          alert('Error moving event. Check admin key in js/api-config.js.');
+          alert(err.message || 'Move failed. Set MSM_ADMIN_KEY in js/api-config.js to match Vercel ADMIN_API_KEY.');
           console.error(err);
         });
     }

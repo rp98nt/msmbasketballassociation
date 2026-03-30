@@ -4,8 +4,9 @@ const { applyCors, handleOptions } = require('../lib/cors');
 const { readJsonBody } = require('../lib/body');
 
 function assertAdmin(req, res) {
-  const key = req.headers['x-admin-key'];
-  if (!process.env.ADMIN_API_KEY || key !== process.env.ADMIN_API_KEY) {
+  const key = String(req.headers['x-admin-key'] || '').trim();
+  const expected = String(process.env.ADMIN_API_KEY || '').trim();
+  if (!expected || key !== expected) {
     applyCors(res);
     res.status(401).json({ error: 'Unauthorized' });
     return false;
