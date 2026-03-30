@@ -370,7 +370,7 @@
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                            <div class="img-box">
-                              <figure><img id="homePastImg" src="images/aboutpic.jpeg"
+                              <figure><img id="homePastImg" src="images/1a.jpeg"
                                     style="max-width: 100%; border: 15px solid #fff;" alt="" /></figure>
                            </div>
                         </div>
@@ -710,7 +710,7 @@
                                  titleEl.textContent = '';
                                  timeEl.textContent = '';
                                  descEl.textContent = 'No past events listed yet.';
-                                 imgEl.src = 'images/aboutpic.jpeg';
+                                 imgEl.src = 'images/1a.jpeg';
                                  imgEl.alt = '';
                                  if (linkEl) linkEl.href = 'testmonial.html';
                                  return;
@@ -720,7 +720,7 @@
                               timeEl.textContent = ev.time || '';
                               titleEl.textContent = ev.title || '';
                               descEl.textContent = truncate(body, 600);
-                              imgEl.src = ev.image || 'images/aboutpic.jpeg';
+                              imgEl.src = ev.image || 'images/1a.jpeg';
                               imgEl.alt = ev.title || '';
                               if (linkEl) {
                                  linkEl.href = 'testmonial.html?id=' + encodeURIComponent(entry.id);
@@ -735,6 +735,8 @@
                                  fillPast(firstEntry(results[1]));
                               }).catch(function (e) {
                                  console.error(e);
+                                 fillUpcoming(null);
+                                 fillPast(null);
                               });
                            }
                            if (document.readyState === 'loading') {
