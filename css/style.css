@@ -2920,7 +2920,22 @@ text-align: center;
 }
 
 
-.about_pape .banner-main {margin-bottom: 60px;}
+/* About page: remove white gap before footer (was margin-bottom + non-blue strip) */
+.about_pape .banner-main {
+     margin-bottom: 0 !important;
+}
+
+.about_pape .about-page-lower {
+     padding-bottom: 32px;
+}
+
+.about_pape .about-page-last-row {
+     margin-bottom: 0 !important;
+}
+
+.about_pape #footer.Address.site-footer {
+     margin-top: 0;
+}
 
 
 #read-more-heros{
