@@ -326,17 +326,9 @@
                                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                     <div class="carousel-sporrt_text ">
                                        <h1 class="sporrt_text" style="color:white;">Upcoming Events</h1>
-                                       <p class="lorem_text " style="text-align: justify;color: white;">
-                                          छत्रपती संभाजीनगर बास्केटबॉल प्रीमिअर लीग 2023 स्पर्धेसाठी खेळाडूंच्या नावनोंदणीस सुरुवात, एम.एस.एम. बास्केटबॉल
-                                          स्पोर्ट्स असोसिएशन, आयोजित व जिल्हा बास्केटबॉल संघटनेच्या माध्यमातून, जिल्ह्यात, प्रथमच सब-ज्युनिअर मुले व मुलींच्या
-                                          वयोगटांसाठी छत्रपती संभाजीनगर बास्केटबॉल प्रीमिअर लीग 2023 स्पर्धेचे मराठवाडा सांस्कृतिक मंडळाच्या बास्केटबॉल मैदानावर
-                                          आयोजन करण्याचे निश्चित करण्यात आले आहे. एम.एस.एम. बास्केटबॉल स्पोर्ट्स असोसिएशनच्या माध्यमातून जिल्ह्यात प्रथमच मुले व
-                                          मुलींच्या सब-ज्युनिअर वयोगटासाठी बास्केटबॉल प्रीमिअर लीग स्पर्धेचे आयोजन होत असून, त्यामुळे जिल्ह्यात नवचैतन्य व बाल
-                                          वयोगटातील खेळाडूंमध्ये अतिशय उत्साहाचे वातावरण निर्माण झाले आहे, स्पर्धेत मुले व मुलींच्या वयोगटात प्रत्येकी सहा-सहा संघ
-                                          तयार करण्यात येणार असून, स्पर्धा साखळी-वजा-बाद पध्दतीने खेळविली जाणार आहे, तर स्पर्धेतून विजयी व उप-विजयी संघातील खेळाडू
-                                          तसेच ईतर अनेक खेळाडूंना आकर्षक बक्षीस देऊन गौरविण्यात येणार आहे, स्पर्धेत जिल्ह्यातील कुठल्याही शाळा, खासगी मंडळे आदींचे
-                                          खेळाडूंसाठी प्रवेश सर्वांनसाठी खुला असून, खेळाडू दिनांक 15 जुन 2023 तारखेच्या यालिंकवर जाऊन
-                                       </p>
+                                       <p id="homeUpcomingTime" class="date-text" style="color:#fff;font-weight:bold;font-size:15px;"></p>
+                                       <p id="homeUpcomingEventTitle" class="lorem_text" style="text-align: justify;color: white;font-weight: bold;"></p>
+                                       <p id="homeUpcomingDesc" class="lorem_text " style="text-align: justify;color: white;"></p>
                                        <div class="btn_main">
                                           <a class="btn btn-lg-9 btn-primary" href="events.html" role="button">View
                                              All</a>
@@ -346,7 +338,7 @@
                                  </div>
                                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                     <div class="img-box">
-                                       <figure><img src="images/mainImage.jpeg"
+                                       <figure><img id="homeUpcomingImg" src="images/mainImage.jpeg"
                                              style="max-width: 100%; border: 15px solid #fff;" alt="" /></figure>
                                     </div>
                                  </div>
@@ -367,23 +359,18 @@
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                            <div class="carousel-sporrt_text ">
                               <h1 class="sporrt_text" style="color: black;">Our Past Events</h1>
-
-                              <p class="lorem_text " style="text-align: justify;color: black;">
-                                 Yesterday evening from the USA (MONETA), especially Moneta University 🏀 players
-                                 (research students) namely viz., Scott,
-                                 Abhi, Joe, Logam, Anni, visited and played at MSM🏀they represented by YABEZ
-                                 International Pvt.Ltd.,
-                                 Aurangabad,😀⛹🏼‍♂️⛹🏽‍♀️🥳🤩👌🏻👍🏻✍🏼
-                              </p>
+                              <p id="homePastTime" class="date-text" style="color:#333;font-weight:bold;font-size:15px;"></p>
+                              <p id="homePastEventTitle" class="lorem_text" style="text-align: justify;color: black;font-weight: bold;"></p>
+                              <p id="homePastDesc" class="lorem_text " style="text-align: justify;color: black;"></p>
                               <div class="btn_main">
-                                 <a class="btn btn-lg-9 btn-primary" href="/testmonial.html" role="button">View All</a>
+                                 <a id="homePastReadMore" class="btn btn-lg-9 btn-primary" href="/testmonial.html" role="button">View All</a>
                               </div>
 
                            </div>
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                            <div class="img-box">
-                              <figure><img src="images/aboutpic.jpeg"
+                              <figure><img id="homePastImg" src="images/aboutpic.jpeg"
                                     style="max-width: 100%; border: 15px solid #fff;" alt="" /></figure>
                            </div>
                         </div>
@@ -678,6 +665,85 @@
                      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
                      <script src="js/api-config.js"></script>
                      <script src="js/msm-api.js"></script>
+                     <script>
+                        (function () {
+                           function firstEntry(keyed) {
+                              if (!keyed || typeof keyed !== 'object' || keyed.error) return null;
+                              var keys = Object.keys(keyed);
+                              if (!keys.length) return null;
+                              return { id: keys[0], ev: keyed[keys[0]] };
+                           }
+                           function truncate(s, max) {
+                              s = (s || '').trim();
+                              if (s.length <= max) return s;
+                              return s.slice(0, max).replace(/\s+\S*$/, '') + '...';
+                           }
+                           function fillUpcoming(entry) {
+                              var timeEl = document.getElementById('homeUpcomingTime');
+                              var titleEl = document.getElementById('homeUpcomingEventTitle');
+                              var descEl = document.getElementById('homeUpcomingDesc');
+                              var imgEl = document.getElementById('homeUpcomingImg');
+                              if (!timeEl || !titleEl || !descEl || !imgEl) return;
+                              if (!entry) {
+                                 titleEl.textContent = '';
+                                 timeEl.textContent = '';
+                                 descEl.textContent = 'No upcoming events listed yet.';
+                                 imgEl.src = 'images/mainImage.jpeg';
+                                 imgEl.alt = '';
+                                 return;
+                              }
+                              var ev = entry.ev;
+                              timeEl.textContent = ev.time || '';
+                              titleEl.textContent = ev.title || '';
+                              descEl.textContent = truncate(ev.description || '', 600);
+                              imgEl.src = ev.image || 'images/mainImage.jpeg';
+                              imgEl.alt = ev.title || '';
+                           }
+                           function fillPast(entry) {
+                              var timeEl = document.getElementById('homePastTime');
+                              var titleEl = document.getElementById('homePastEventTitle');
+                              var descEl = document.getElementById('homePastDesc');
+                              var imgEl = document.getElementById('homePastImg');
+                              var linkEl = document.getElementById('homePastReadMore');
+                              if (!timeEl || !titleEl || !descEl || !imgEl) return;
+                              if (!entry) {
+                                 titleEl.textContent = '';
+                                 timeEl.textContent = '';
+                                 descEl.textContent = 'No past events listed yet.';
+                                 imgEl.src = 'images/aboutpic.jpeg';
+                                 imgEl.alt = '';
+                                 if (linkEl) linkEl.href = 'testmonial.html';
+                                 return;
+                              }
+                              var ev = entry.ev;
+                              var body = (ev.recapText && String(ev.recapText).trim()) || (ev.description || '');
+                              timeEl.textContent = ev.time || '';
+                              titleEl.textContent = ev.title || '';
+                              descEl.textContent = truncate(body, 600);
+                              imgEl.src = ev.image || 'images/aboutpic.jpeg';
+                              imgEl.alt = ev.title || '';
+                              if (linkEl) {
+                                 linkEl.href = 'testmonial.html?id=' + encodeURIComponent(entry.id);
+                              }
+                           }
+                           function loadHomeFeatured() {
+                              Promise.all([
+                                 fetch(msmApiUrl('/api/events/upcoming')).then(function (r) { return r.json(); }),
+                                 fetch(msmApiUrl('/api/events/past')).then(function (r) { return r.json(); })
+                              ]).then(function (results) {
+                                 fillUpcoming(firstEntry(results[0]));
+                                 fillPast(firstEntry(results[1]));
+                              }).catch(function (e) {
+                                 console.error(e);
+                              });
+                           }
+                           if (document.readyState === 'loading') {
+                              document.addEventListener('DOMContentLoaded', loadHomeFeatured);
+                           } else {
+                              loadHomeFeatured();
+                           }
+                        })();
+                     </script>
                      <script src="mail.js"></script>
                      <script>
                         $(document).ready(function () {
