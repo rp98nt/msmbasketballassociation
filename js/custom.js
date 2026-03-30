@@ -10,7 +10,9 @@ $(function () {
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
 
 	setTimeout(function () {
-		$('.loader_bg').fadeToggle();
+		$('.loader_bg').fadeOut(400, function () {
+			$(this).remove();
+		});
 	}, 1500);
 
 	/* JQuery Menu
@@ -51,9 +53,11 @@ $(function () {
 	/* NiceScroll
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
 
-	$(".brand-box").niceScroll({
-		cursorcolor: "#9b9b9c",
-	});
+	if ($(".brand-box").length) {
+		$(".brand-box").niceScroll({
+			cursorcolor: "#9b9b9c",
+		});
+	}
 
 	/* NiceSelect
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
@@ -203,58 +207,62 @@ $(function () {
 	/* heroslider
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
 
-	var swiper = new Swiper('.heroslider', {
-		spaceBetween: 30,
-		centeredSlides: true,
-		slidesPerView: 'auto',
-		paginationClickable: true,
-		loop: true,
-		autoplay: {
-			delay: 2500,
-			disableOnInteraction: false,
-		},
-		pagination: {
-			el: '.swiper-pagination',
-			clickable: true,
-			dynamicBullets: true
-		},
-	});
+	if (document.querySelector('.heroslider')) {
+		var swiper = new Swiper('.heroslider', {
+			spaceBetween: 30,
+			centeredSlides: true,
+			slidesPerView: 'auto',
+			paginationClickable: true,
+			loop: true,
+			autoplay: {
+				delay: 2500,
+				disableOnInteraction: false,
+			},
+			pagination: {
+				el: '.swiper-pagination',
+				clickable: true,
+				dynamicBullets: true
+			},
+		});
+	}
 
 
 	/* Product Filters
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
 
-	var swiper = new Swiper('.swiper-product-filters', {
-		slidesPerView: 3,
-		slidesPerColumn: 2,
-		spaceBetween: 30,
-		breakpoints: {
-			1024: {
-				slidesPerView: 3,
-				spaceBetween: 30,
+	if (document.querySelector('.swiper-product-filters')) {
+		var swiperProduct = new Swiper('.swiper-product-filters', {
+			slidesPerView: 3,
+			slidesPerColumn: 2,
+			spaceBetween: 30,
+			breakpoints: {
+				1024: {
+					slidesPerView: 3,
+					spaceBetween: 30,
+				},
+				768: {
+					slidesPerView: 2,
+					spaceBetween: 30,
+					slidesPerColumn: 1,
+				},
+				640: {
+					slidesPerView: 2,
+					spaceBetween: 20,
+					slidesPerColumn: 1,
+				},
+				480: {
+					slidesPerView: 1,
+					spaceBetween: 10,
+					slidesPerColumn: 1,
+				}
 			},
-			768: {
-				slidesPerView: 2,
-				spaceBetween: 30,
-				slidesPerColumn: 1,
-			},
-			640: {
-				slidesPerView: 2,
-				spaceBetween: 20,
-				slidesPerColumn: 1,
-			},
-			480: {
-				slidesPerView: 1,
-				spaceBetween: 10,
-				slidesPerColumn: 1,
+			pagination: {
+				el: '.swiper-pagination',
+				clickable: true,
+				dynamicBullets: true
 			}
-		},
-		pagination: {
-			el: '.swiper-pagination',
-			clickable: true,
-			dynamicBullets: true
-		}
-	});
+		});
+	}
 
 	/* Countdown
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
@@ -275,7 +283,7 @@ $(function () {
 	/* Deal Slider
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
 
-	$('.deal-slider').slick({
+	if ($('.deal-slider').length) { $('.deal-slider').slick({
 		dots: false,
 		infinite: false,
 		prevArrow: '.previous-deal',
@@ -305,12 +313,12 @@ $(function () {
 				slidesToScroll: 1
 			}
 		}]
-	});
+	}); }
 
 	/* News Slider
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
 
-	$('#news-slider').slick({
+	if ($('#news-slider').length) { $('#news-slider').slick({
 		dots: false,
 		infinite: false,
 		prevArrow: '.previous',
@@ -339,17 +347,19 @@ $(function () {
 				slidesToScroll: 1
 			}
 		}]
-	});
+	}); }
 
 	/* Fancybox
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
 
-	$(".fancybox").fancybox({
-		maxWidth: 1200,
-		maxHeight: 600,
-		width: '70%',
-		height: '70%',
-	});
+	if ($.fn.fancybox) {
+		$(".fancybox").fancybox({
+			maxWidth: 1200,
+			maxHeight: 600,
+			width: '70%',
+			height: '70%',
+		});
+	}
 
 	/* Toggle sidebar
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
@@ -363,10 +373,11 @@ $(function () {
 
 	/* Product slider 
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
-	// optional
-	$('#blogCarousel').carousel({
-		interval: 5000
-	});
+	if ($('#blogCarousel').length) {
+		$('#blogCarousel').carousel({
+			interval: 5000
+		});
+	}
 
 
 });

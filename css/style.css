@@ -2818,6 +2818,8 @@ border-radius: 10px;
      display: flex;
      align-items: center;
      box-sizing: border-box;
+     position: relative;
+     z-index: 1000;
 }
 
 .header_main > .header_main {
@@ -2921,7 +2923,8 @@ text-align: center;
 
 
 /* About page: remove white gap before footer (was margin-bottom + non-blue strip) */
-.about_pape .banner-main {
+.about_pape .banner-main,
+.about_pape .about-static-panel {
      margin-bottom: 0 !important;
 }
 
