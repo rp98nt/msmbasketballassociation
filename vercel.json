@@ -4,5 +4,17 @@
       "memory": 1024,
       "maxDuration": 30
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/dashboard",
+      "destination": "/dashboard/home.html",
+      "permanent": false
+    },
+    {
+      "source": "/dashboard/",
+      "destination": "/dashboard/home.html",
+      "permanent": false
+    }
+  ]
 }
